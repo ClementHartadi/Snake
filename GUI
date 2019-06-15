@@ -95,4 +95,12 @@ public class GUI {
 		size++;
 	}
 	
+		
+	/**
+	 * returns the size of the snake as seen in the gui
+	 * @return
+	 */
+	public int getsize() {
+		return size;
+	}
 }
