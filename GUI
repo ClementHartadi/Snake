@@ -1,0 +1,45 @@
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.TextArea;
+import javax.swing.JTextPane;
+
+public class GUI {
+// place new items and objects here like this (Do not make private so we can access it elsewhere)
+	JFrame frame;
+	JPanel panel;
+	JButton btnStart;
+
+
+	/**
+	 * Constructor
+	 */
+	public GUI() {
+		initialize();
+		this.frame.setVisible(true);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setSize(800, 800);
+		frame.getContentPane().setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBounds(0, 0, 800, 800);
+		frame.getContentPane().add(panel);
+		
+		JButton btnStart = new JButton("Start");
+		btnStart.setBounds(902, 59, 97, 25);
+		frame.getContentPane().add(btnStart);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(846, 167, 207, 287);
+		frame.getContentPane().add(textPane);
+		frame.setBounds(100, 100, 1108, 865);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+}
