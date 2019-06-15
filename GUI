@@ -2,21 +2,30 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import java.awt.TextArea;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JTextPane;
+import java.awt.Color;
+import java.awt.Label;
 
 public class GUI {
-// place new items and objects here like this (Do not make private so we can access it elsewhere)
+
 	JFrame frame;
-	JPanel panel;
-	JButton btnStart;
+	JPanel panel;// the Playground Container
+	private JButton btnStart; //start button
+	private JTextPane textPane; //textbox
+	ArrayList <Label> lblSnakeArray; // Snake label Array list
+	int size = 0;
 
 
 	/**
-	 * Constructor
+	 * GUI class Constructor
 	 */
 	public GUI() {
 		initialize();
+		lblSnakeArray = new ArrayList<Label> ();
+		this.addnewSnake(0, 0);
+		this.addnewSnake(100, 100);
 		this.frame.setVisible(true);
 	}
 
@@ -27,19 +36,63 @@ public class GUI {
 		frame = new JFrame();
 		frame.getContentPane().setSize(800, 800);
 		frame.getContentPane().setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBounds(0, 0, 800, 800);
+
+		panel = new JPanel(); 
+		panel.setBounds(0, 0, 800, 800); //the size is 800 by 800 pixels, and each "grid" should be 50by50 pixels, making the the grids 16 by 16 units.
 		frame.getContentPane().add(panel);
-		
-		JButton btnStart = new JButton("Start");
+		panel.setLayout(null);
+
+		btnStart = new JButton("Start");
 		btnStart.setBounds(902, 59, 97, 25);
 		frame.getContentPane().add(btnStart);
-		
-		JTextPane textPane = new JTextPane();
+
+		textPane = new JTextPane();
 		textPane.setBounds(846, 167, 207, 287);
 		frame.getContentPane().add(textPane);
 		frame.setBounds(100, 100, 1108, 865);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	/**
+	 * gets the content of textbox
+	 * @return
+	 */
+	public String gettextPane() {
+		String input = textPane.getText();
+		return input;
+	}
+
+	/**
+	 * sets the text of the textbox to the content
+	 * @param content
+	 */
+	public void settextPane(String content) {
+		textPane.setText(content);
+	}
+	
+
+	/**
+	 * adds an actionlistner to btnStart
+	 * @param listener
+	 */
+	public void addbtnStartListener(ActionListener listener) {
+		btnStart.addActionListener(listener);
+	}
+	
+	
+	/**
+	 * spawns a new snake unit label
+	 * @param x - x axis position
+	 * @param y - y axis position
+	 */
+	public void addnewSnake(int x, int y) {
+		Label lblSnake = new Label("");
+		lblSnake.setBounds(x, y, 50, 50); //snake is 50x50
+		lblSnake.setBackground(Color.BLACK);
+		lblSnake.setAlignment(Label.CENTER);
+		panel.add(lblSnake);
+		lblSnakeArray.add(lblSnake);
+		size++;
+	}
+	
 }
