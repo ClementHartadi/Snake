@@ -10,7 +10,7 @@ public class Snake {
 	Snake fSnake;
 	String direction; // snake that is in front of it
 
-	public Snake(int arg0, int arg1, Snake arg3) {
+	public Snake(int arg0, int arg1, Snake arg2) {
 		x = arg0;
 		y = arg1;
 		direction = fSnake.direction;
