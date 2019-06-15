@@ -1,0 +1,19 @@
+
+/**
+ * the class that handles the calculation for the each of the individual snake units
+ * @author cleme
+ *
+ */
+public class Snake {
+	int x; // the x position of the snake pixel-wise
+	int y; // the y position of the snake pixel-wise
+	Snake fSnake;
+	String direction; // snake that is in front of it
+
+	public Snake(int arg0, int arg1, Snake arg3) {
+		x = arg0;
+		y = arg1;
+		direction = fSnake.direction;
+	}
+	
+}
