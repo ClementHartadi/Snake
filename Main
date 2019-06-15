@@ -1,0 +1,25 @@
+public class Main {
+	GUI gui;
+
+	/**
+	 * Main Class constructor
+	 */
+	public Main() {
+		gui = new GUI();	
+	}
+
+	public static void main(String[] args) {
+		Main Snek = new Main();
+		Snek.run();
+	}
+	
+	
+	public void run() {
+		
+	}
+
+
+
+
+
+}
