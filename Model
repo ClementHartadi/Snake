@@ -1,0 +1,27 @@
+public class Model{
+    
+
+
+        int secondsPassed;
+
+       Timer tick = new Timer();
+
+       TimerTask task = new TimerTask() {
+           @Override
+           public void run() {
+
+               secondsPassed++;
+
+               System.out.println(secondsPassed);
+
+           }
+       };
+
+       public void Move(){
+
+           tick.scheduleAtFixedRate(task,1000,1000);
+
+
+       }
+
+    }
