@@ -8,8 +8,8 @@
 public class Snake {
 	int x; // the x position of the snake pixel-wise
 	int y; // the y position of the snake pixel-wise
-	Snake fSnake;
-	String direction; // snake that is in front of it
+	Snake fSnake;// snake unit in front of it
+	String direction; //direction that its facing
 
 	public Snake(int arg0, int arg1, Snake arg2) {
 		x = arg0;
