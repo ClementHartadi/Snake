@@ -6,16 +6,39 @@
  *
  */
 public class Snake {
-	int x; // the x position of the snake pixel-wise
-	int y; // the y position of the snake pixel-wise
-	Snake fSnake;// snake unit in front of it
-	String direction; //direction that its facing
+	private int x; // the x position of the snake pixel-wise
+	private int y; // the y position of the snake pixel-wise
+	Snake fSnake;
+	String direction; // snake that is in front of it
 
 	public Snake(int arg0, int arg1, Snake arg2) {
 		x = arg0;
 		y = arg1;
 		fSnake = arg2;
 		direction = fSnake.direction;
+	}
+	
+	public void sety(int content) {
+		y = content;
+	}
+	public void setx(int content) {
+		x = content;
+	}
+	
+	public void setdirection(String content) {
+		direction= content;
+	}
+	
+	public int gety() {
+		return y;
+	}
+	
+	public int getx() {
+		return x;
+	}
+	
+	public String getdirection() {
+		return direction;
 	}
 	
 }
