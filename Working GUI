@@ -1,0 +1,195 @@
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import javax.swing.JTextPane;
+import java.awt.Color;
+import java.awt.Label;
+import java.util.Random;
+
+public class GUI {
+
+    JFrame frame;
+    private JButton btnStart; //start button
+    ArrayList<Label> lblSnakeArray; // Snake label Array list
+
+    Label lblFood = new Label();
+
+    int x;
+    int y;
+    int size = 0;
+    String Direction = "east";
+
+
+
+    /**
+     * GUI class Constructor
+     */
+    public GUI() {
+
+        frame = new JFrame();
+        frame.addKeyListener(new SnakeListener());
+        frame.setBounds(0, 0, 1000, 1000);
+
+        frame.setLayout(null);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        lblSnakeArray = new ArrayList<>();
+
+        this.addnewSnake(375, 375);
+
+        lblFood.setBackground(Color.YELLOW);
+        lblFood.setAlignment(Label.CENTER);
+        this.updateFoodPosition();
+
+        this.frame.setVisible(true);
+
+    }
+
+    public ArrayList<Label> returnSnake(){
+        return lblSnakeArray;
+    }
+
+    public Label returnFood(){
+        return lblFood;
+    }
+
+    /**
+     * Changes position of a snake according to direction
+     * @param oldX
+     * @param oldY
+     * @param direction
+     * @param snake
+     */
+    public Label updateSnakePosition(int oldX, int oldY, String direction, Label snake){
+
+        if(direction == "north"){
+
+            y = oldY - 25;
+
+            snake.setLocation(oldX, y);
+
+
+
+        }
+        else if(direction == "south"){
+
+            y = oldY + 25;
+
+            snake.setLocation(oldX ,y);
+
+
+        }
+
+        else if (direction == "east"){
+
+            x = oldX + 25;
+
+            snake.setLocation(x, oldY);
+
+
+        }
+
+        else {
+
+            x = oldX - 25;
+
+            snake.setLocation(x, oldY);
+
+
+        }
+
+        return snake;
+    }
+
+
+
+    /**
+     * spawns a new snake unit label
+     *
+     * @param x - x axis position
+     * @param y - y axis position
+     */
+    public void addnewSnake(int x, int y) {
+        Label lblSnake = new Label("");
+        lblSnake.setBounds(x, y, 25, 25); //snake is 50x50
+        lblSnake.setBackground(Color.BLACK);
+        lblSnake.setAlignment(Label.CENTER);
+        frame.add(lblSnake);
+        lblSnakeArray.add(lblSnake);
+        size++;
+    }
+
+
+    /**
+     * relocates food
+     */
+    public void updateFoodPosition(){
+
+        Integer x,y;
+
+        x = (((int) Math.floor(Math.random() * (900 + 1) + 100))/50) * 50 ;
+
+        y = (((int) Math.floor(Math.random() * (900 + 1) + 100))/50) * 50;
+
+        lblFood.setBounds(x, y, 25, 25); //snake is 50x50
+
+        frame.add(lblFood);
+    }
+
+
+
+    /**
+     * Adjusts direction of snake to player demands
+     */
+    private class SnakeListener implements KeyListener{
+
+        public void keyTyped(KeyEvent e) {
+
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+
+            if(e.getKeyCode() == KeyEvent.VK_UP)
+            {
+                Direction = "north";
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+            {
+                Direction = "south";
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                Direction = "west";
+            }
+            else{
+                Direction = "east";
+            }
+
+
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    }
+
+
+    public String getDirection(){
+
+        return Direction;
+    }
+
+
+
