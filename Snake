@@ -27,16 +27,15 @@ public class Snake {
 	public void move (){
 		this.updatefdirection();
 		this.updatedirection1();
-		if (direction1.equalsIgnoreCase("north")) {
+		if (direction1=="north") {
 			this.addy(-25);
-		}else if (direction1.equalsIgnoreCase("South")){
+		}else if (direction1 == "south"){
 			this.addy(25);
-		}else if (direction1.equalsIgnoreCase("west")) {
+		}else if (direction1=="west") {
 			this.addx(-25);
 		}else {
 			this.addx(25);
 		}
-		this.updatedirection2();
 	}
 	
 	
