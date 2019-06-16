@@ -16,11 +16,11 @@ public class Snake {
 	public Snake(int arg0, int arg1, Snake arg2) {
 		x = arg0;
 		y = arg1;
-		if(!arg2.equals(null)) {
+		if(arg2 ==null) {
+			direction1 = "east"; //head snake will always spawn facing east
+		}else {
 			fSnake = arg2;
 			direction1 = fSnake.direction1; //sets the spawn direction to the current direction of snake infront of it
-		}else {
-			direction1 = "east"; //head snake will always spawn facing east
 		}
 	}
 
@@ -28,13 +28,13 @@ public class Snake {
 		this.updatefdirection();
 		this.updatedirection1();
 		if (direction1.equalsIgnoreCase("north")) {
-			this.addy(-20);
+			this.addy(-25);
 		}else if (direction1.equalsIgnoreCase("South")){
-			this.addy(20);
+			this.addy(25);
 		}else if (direction1.equalsIgnoreCase("west")) {
-			this.addx(-20);
+			this.addx(-25);
 		}else {
-			this.addx(20);
+			this.addx(25);
 		}
 		this.updatedirection2();
 	}
@@ -45,7 +45,7 @@ public class Snake {
 	}
 
 	public void updatedirection1() {
-		if (!fSnake.equals(null)) {
+		if (!(fSnake==null)) {
 			direction1 = fdirection;
 		}
 	}
@@ -55,7 +55,7 @@ public class Snake {
 	}
 
 	public void updatefdirection() {
-		if (!fSnake.equals(null)) {
+		if (!(fSnake ==null)) {
 			fdirection = fSnake.direction2;
 		}
 	}
@@ -76,10 +76,12 @@ public class Snake {
 	}
 	
 	public void addy(int content) {
-		y+= content;
+		int oldy = y;
+		y = oldy + content;
 	}
 
 	public void addx(int content) {
-		x+= content;
+		int oldx = x;
+		x = oldx + content;
 	}
 }
