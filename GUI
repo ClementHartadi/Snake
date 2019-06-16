@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import java.awt.Label;
+import javax.swing.JOptionPane;
 
 public class GUI {
 
@@ -20,6 +21,7 @@ public class GUI {
 		initialize();
 		lblSnakeArray = new ArrayList<Label> ();
 		this.frame.setVisible(true);
+		this.popupmessage("hello");
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class GUI {
 		frame = new JFrame();
 		frame.getContentPane().setSize(800, 800);
 		frame.getContentPane().setLayout(null);
-		frame.setBounds(100, 100, 1108, 865);
+		frame.setBounds(100, 100,800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -46,5 +48,13 @@ public class GUI {
 		lblSnake.setAlignment(Label.CENTER);
 		frame.add(lblSnake);
 		lblSnakeArray.add(lblSnake);
+	}
+	
+	/**
+	 * gameover popup
+	 * @param content
+	 */
+	public void popupmessage(String content) {
+		  JOptionPane.showMessageDialog(null, content, "Game Over", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
