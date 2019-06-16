@@ -59,6 +59,7 @@ public class Main {
 
 
 
+	
 	/**
 	 * Adjusts direction of snake to player demands
 	 */
@@ -71,24 +72,33 @@ public class Main {
 
 			if(e.getKeyCode() == KeyEvent.VK_UP)
 			{
-				Direction = "north";
-				snakearray.get(0).setdirection1(Direction);
+				if(Direction != "south") {
+					Direction = "north";
+					snakearray.get(0).setdirection1(Direction);
+				}
+
 			}
 			else if(e.getKeyCode() == KeyEvent.VK_DOWN)
 			{
-				Direction = "south";
-				snakearray.get(0).setdirection1(Direction);
+				if(Direction != "north") {
+					Direction = "south";
+					snakearray.get(0).setdirection1(Direction);
+				}
 			}
 			else if(e.getKeyCode() == KeyEvent.VK_LEFT)
 			{
-				Direction = "west";
-				snakearray.get(0).setdirection1(Direction);
+				if(Direction != "east") {
+					Direction = "west";
+					snakearray.get(0).setdirection1(Direction);
+				}
 			}
 			else{
-				Direction = "east";
-				snakearray.get(0).setdirection1(Direction);;
+				if(Direction != "west") {
+					Direction = "east";
+					snakearray.get(0).setdirection1(Direction);
+				}
 			}
-			
+
 		}
 		@Override
 		public void keyReleased(KeyEvent arg0) {
