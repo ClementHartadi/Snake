@@ -15,7 +15,11 @@ public class Main {
 		gui = new GUI();
 		snakearray = new ArrayList<Snake>();
 		addsnake(100,100,null); //head snake
+		addsnake(75,100,snakearray.get(0));
+		addsnake(50,100,snakearray.get(1));
 		gui.addnewSnake(100, 100);
+		gui.addnewSnake(75, 100);
+		gui.addnewSnake(50, 100);
 		gui.frame.addKeyListener(new SnakeListener());
 	}
 
@@ -26,6 +30,7 @@ public class Main {
 
 
 	public void run() {
+		// TODO Auto-generated method stub
 		Timer tick = new Timer();
 		TimerTask task = new TimerTask() {
 			@Override
@@ -36,10 +41,15 @@ public class Main {
 					int x = snakearray.get(i).getx();
 					int y = snakearray.get(i).gety();
 					gui.lblSnakeArray.get(i).setLocation(x, y);
+
 				}
-			}		
+				for (int i = 0 ; i<snakearray.size();i++){
+					snakearray.get(i).updatedirection2();
+				}
+			}
 		};
-	tick.scheduleAtFixedRate(task, 100, 100);
+
+		tick.scheduleAtFixedRate(task, 100, 100);
 	}
 
 	public void addsnake(int x, int y, Snake arg) {
@@ -78,6 +88,7 @@ public class Main {
 				Direction = "east";
 				snakearray.get(0).setdirection1(Direction);;
 			}
+			
 		}
 		@Override
 		public void keyReleased(KeyEvent arg0) {
