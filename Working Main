@@ -1,24 +1,118 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Main {
+    GUI gui;
+    ArrayList<Snake> snakearray;
+    String Direction; // head snake movement and direction
+    /**
+     * Main Class constructor
+     */
+    public Main() {
+        gui = new GUI();
+        snakearray = new ArrayList<Snake>();
+        addsnake(100,100,null); //head snake
+        addsnake(75,100,snakearray.get(0));
+        addsnake(50,100,snakearray.get(1));
+        gui.addnewSnake(100, 100);
+        gui.addnewSnake(75, 100);
+        gui.addnewSnake(50, 100);
+        gui.frame.addKeyListener(new SnakeListener());
+    }
 
-    public static void main(String[] args0){
-
-        /**
-         * Initializing objects
-         */
-        GUI theInterface = new GUI();
-
-        theInterface.frame.setVisible(true);
-
-        Snake Game = new Snake(theInterface);
-
-        Game.run();
+    public static void main(String[] args) {
+        Main Snek = new Main();
+        Snek.run();
+    }
 
 
+    public void run() {
+        // TODO Auto-generated method stub
+        Timer tick = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                for (int i=0 ; i<snakearray.size(); i++) {
+                    snakearray.get(i).move();
+                    int x = snakearray.get(i).getx();
+                    int y = snakearray.get(i).gety();
+                    gui.lblSnakeArray.get(i).setLocation(x, y);
+
+                    //Checks for a collision
+                    if(i == 0){
+
+                        ArrayList<Integer> foodLocation = new ArrayList<>();
+
+                        foodLocation = gui.getFoodLocation();
+
+                        //checks for food collision
+                        if(x == foodLocation.get(0) && y == foodLocation.get(1) ){
+
+                            gui.positionFood();
+                        }
+                        //checks for wall collision
+                        if(x == 800 || y == 800|| x ==  -20|| y == -20){
+                            gui.popupmessage("You can not run through walls");
+                        }
 
 
+                    }
 
+                }
+                for (int i = 0 ; i<snakearray.size();i++){
+                    snakearray.get(i).updatedirection2();
+                }
+            }
+        };
+
+        tick.scheduleAtFixedRate(task, 100, 100);
+    }
+
+    public void addsnake(int x, int y, Snake arg) {
+        Snake unit = new Snake(x,y,arg);
+        snakearray.add(unit);
     }
 
 
 
+    /**
+     * Adjusts direction of snake to player demands
+     */
+    class SnakeListener implements KeyListener{
+        public void keyTyped(KeyEvent e) {
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+
+            if(e.getKeyCode() == KeyEvent.VK_UP)
+            {
+                Direction = "north";
+                snakearray.get(0).setdirection1(Direction);
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+            {
+                Direction = "south";
+                snakearray.get(0).setdirection1(Direction);
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                Direction = "west";
+                snakearray.get(0).setdirection1(Direction);
+            }
+            else{
+                Direction = "east";
+                snakearray.get(0).setdirection1(Direction);;
+            }
+
+        }
+        @Override
+        public void keyReleased(KeyEvent arg0) {
+            // TODO Auto-generated method stub
+        }
+    }
 }
