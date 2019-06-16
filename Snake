@@ -1,8 +1,4 @@
-import java.util.ArrayList;
 import java.util.TimerTask;
-import java.util.Timer;
-
-import java.awt.Label;
 
 /**
  * the class that handles the calculation for the each of the individual snake units
@@ -10,99 +6,80 @@ import java.awt.Label;
  *
  */
 public class Snake {
+	private int x; // the x position of the snake pixel-wise
+	private int y; // the y position of the snake pixel-wise
+	Snake fSnake; // the snake in front of it
+	String direction1; // current direction of snake
+	String direction2; // the direction of the snake one tick in the past
+	String fdirection;// direction2 of the snake in front of it
 
-    /**
-     * Creating objects
-     */
-    private GUI theInterface;
-    
+	public Snake(int arg0, int arg1, Snake arg2) {
+		x = arg0;
+		y = arg1;
+		if(!arg2.equals(null)) {
+			fSnake = arg2;
+			direction1 = fSnake.direction1; //sets the spawn direction to the current direction of snake infront of it
+		}else {
+			direction1 = "east"; //head snake will always spawn facing east
+		}
+	}
 
-    String Direction = "east";
+	public void move (){
+		this.updatefdirection();
+		this.updatedirection1();
+		if (direction1.equalsIgnoreCase("north")) {
+			this.addy(-20);
+		}else if (direction1.equalsIgnoreCase("South")){
+			this.addy(20);
+		}else if (direction1.equalsIgnoreCase("west")) {
+			this.addx(-20);
+		}else {
+			this.addx(20);
+		}
+		this.updatedirection2();
+	}
+	
+	
+	public void setdirection1(String content) {
+		direction1= content;
+	}
 
-    int size;
+	public void updatedirection1() {
+		if (!fSnake.equals(null)) {
+			direction1 = fdirection;
+		}
+	}
+	
+	public void updatedirection2() {
+		direction2 = direction1;
+	}
 
-    Label snake = new Label();
+	public void updatefdirection() {
+		if (!fSnake.equals(null)) {
+			fdirection = fSnake.direction2;
+		}
+	}
+	public int gety() {
+		return y;
+	}
 
-    Label food = new Label();
+	public int getx() {
+		return x;
+	}
 
+	public String getdirection1() {
+		return direction1;
+	}
 
-    ArrayList<Label> snakes = new ArrayList<>();
-    
+	public String getdirection2() {
+		return direction2;
+	}
+	
+	public void addy(int content) {
+		y+= content;
+	}
 
-
-    /**
-     * Constructor
-     *
-     * @param theInterface
-     */
-    public Snake(GUI theInterface) {
-
-        this.theInterface = theInterface;
-
-    }
-
-
-    /**
-     * Runs program
-     */
-    public void run(){
-
-            Timer tick = new Timer();
-
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-
-
-
-                    /**
-                     * Gets entire array list of snakes from GUI
-                     */
-                    snakes = theInterface.returnSnake();
-
-                    food = theInterface.returnFood();
-
-                    if(snakes.get(0).getX() == food.getX() && snakes.get(0).getY() == food.getY()){
-
-                        theInterface.updateFoodPosition();
-                        
-
-                    }
-
-                    /**
-                     * Iterates through entire array list
-                     */
-                    for (int i = 0; i < snakes.size(); i++ ) {
-
-                        Direction = theInterface.getDirection();
-
-                        /**
-                         * snake becomes the ith label in snakes
-                         */
-                        snake = snakes.get(i);
-
-                        /**
-                         * resets the position of snake
-                         */
-                        snake = theInterface.updateSnakePosition(snake.getX(), snake.getY(),Direction, snake);
-
-                        /**
-                         * resets snake(i)
-                         */
-                        snakes.set(i, snake);
-
-
-                    }
-
-
-                }
-
-            };
-
-            /**
-             * Controls tick intervals and delay
-             */
-            tick.scheduleAtFixedRate(task,100,100);
-
-    }
+	public void addx(int content) {
+		x+= content;
+	}
 }
