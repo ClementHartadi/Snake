@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -15,7 +14,7 @@ public class GUI {
 	private JButton btnStart; //start button
 	private JTextPane textPane; //textbox
 	ArrayList <Label> lblSnakeArray; // Snake label Array list
-	int size = 0;
+	private int size = 0;
 
 
 	/**
@@ -24,8 +23,6 @@ public class GUI {
 	public GUI() {
 		initialize();
 		lblSnakeArray = new ArrayList<Label> ();
-		this.addnewSnake(0, 0);
-		this.addnewSnake(100, 100);
 		this.frame.setVisible(true);
 	}
 
@@ -72,7 +69,7 @@ public class GUI {
 	
 
 	/**
-	 * adds an actionlistner to btnStart
+	 * adds an actionlistener to btnStart
 	 * @param listener
 	 */
 	public void addbtnStartListener(ActionListener listener) {
@@ -87,7 +84,7 @@ public class GUI {
 	 */
 	public void addnewSnake(int x, int y) {
 		Label lblSnake = new Label("");
-		lblSnake.setBounds(x, y, 50, 50); //snake is 50x50
+		lblSnake.setBounds(x, y, 20, 20); //snake is 50x50
 		lblSnake.setBackground(Color.BLACK);
 		lblSnake.setAlignment(Label.CENTER);
 		panel.add(lblSnake);
@@ -95,7 +92,6 @@ public class GUI {
 		size++;
 	}
 	
-		
 	/**
 	 * returns the size of the snake as seen in the gui
 	 * @return
@@ -103,4 +99,5 @@ public class GUI {
 	public int getsize() {
 		return size;
 	}
+	
 }
