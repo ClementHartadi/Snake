@@ -5,114 +5,166 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main {
-    GUI gui;
-    ArrayList<Snake> snakearray;
-    String Direction; // head snake movement and direction
-    /**
-     * Main Class constructor
-     */
-    public Main() {
-        gui = new GUI();
-        snakearray = new ArrayList<Snake>();
-        addsnake(100,100,null); //head snake
-        addsnake(75,100,snakearray.get(0));
-        addsnake(50,100,snakearray.get(1));
-        gui.addnewSnake(100, 100);
-        gui.addnewSnake(75, 100);
-        gui.addnewSnake(50, 100);
-        gui.frame.addKeyListener(new SnakeListener());
-    }
+	GUI gui;
+	ArrayList<Snake> snakearray;
+	String Direction; // head snake movement and direction
+	Boolean State = true;// boolean that ensures that only one direction change can be done per tick
+	/**
+	 * Main Class constructor
+	 */
+	public Main() {
+		gui = new GUI();
+		snakearray = new ArrayList<Snake>();
+		addsnake(100,100,null); //head snake
+		addsnake(75,100,snakearray.get(0));
+		addsnake(50,100,snakearray.get(1));
+		gui.addnewSnake(100, 100);
+		gui.addnewSnake(75, 100);
+		gui.addnewSnake(50, 100);
+		gui.frame.addKeyListener(new SnakeListener());
+	}
 
-    public static void main(String[] args) {
-        Main Snek = new Main();
-        Snek.run();
-    }
-
-
-    public void run() {
-        // TODO Auto-generated method stub
-        Timer tick = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                for (int i=0 ; i<snakearray.size(); i++) {
-                    snakearray.get(i).move();
-                    int x = snakearray.get(i).getx();
-                    int y = snakearray.get(i).gety();
-                    gui.lblSnakeArray.get(i).setLocation(x, y);
-
-                    //Checks for a collision
-                    if(i == 0){
-
-                        ArrayList<Integer> foodLocation = new ArrayList<>();
-
-                        foodLocation = gui.getFoodLocation();
-
-                        //checks for food collision
-                        if(x == foodLocation.get(0) && y == foodLocation.get(1) ){
-
-                            gui.positionFood();
-                        }
-                        //checks for wall collision
-                        if(x == 800 || y == 800|| x ==  -20|| y == -20){
-                            gui.popupmessage("You can not run through walls");
-                        }
+	public static void main(String[] args) {
+		Main Snek = new Main();
+		Snek.run();
+	}
 
 
-                    }
+	public void run() {
+		// TODO Auto-generated method stub
+		Timer tick = new Timer();
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				snakearray.get(0).setdirection1(Direction);
+				State =true;
+				int x = 0;
+				int y = 0;
+				for (int i=0 ; i<snakearray.size(); i++) {
+					snakearray.get(i).move();
+					gui.lblSnakeArray.get(i).setLocation(snakearray.get(i).getx(), snakearray.get(i).gety());
 
-                }
-                for (int i = 0 ; i<snakearray.size();i++){
-                    snakearray.get(i).updatedirection2();
-                }
-            }
-        };
+					if(i==0) {
+						//checks for food collision and spawns a new snake
+						ArrayList<Integer> foodLocation = new ArrayList<>();
+						foodLocation = gui.getFoodLocation();
+						x = snakearray.get(0).getx();
+						y = snakearray.get(0).gety();
+						if(x == foodLocation.get(0) && y == foodLocation.get(1) ){
+							String dir=snakearray.get(snakearray.size()-1).getdirection1();
+							int x1 = snakearray.get(snakearray.size()-1).getx();
+							int y1 = snakearray.get(snakearray.size()-1).gety();
+							gui.positionFood();
+							if (dir == "north") { // spawns a new snake unit south of the last snake
+								Main.this.addsnake(x1, y1+25,snakearray.get(snakearray.size()-1));
+								gui.addnewSnake(x1, y1+25);
+							}else if (dir == "south") {// spawns it north
+								Main.this.addsnake(x1, y1-25,snakearray.get(snakearray.size()-1));
+								gui.addnewSnake(x1, y1-25);
+							}else if (dir == "west") {// spawns it south
+								Main.this.addsnake(x1+25, y1,snakearray.get(snakearray.size()-1));
+								gui.addnewSnake(x1+25, y1);
+							}else { //spawns it west
+								Main.this.addsnake(x1-25, y1,snakearray.get(snakearray.size()-1));
+								gui.addnewSnake(x1-25, y1);
+							}
+						}
+						//checks for wall collision
+						if(x == 800 || y == 800|| x ==  0|| y == 0){
+							gui.popupmessage("You can not run through walls");
+							System.exit(0);
+						}
+						//checks for collision within the snake
+						for (int k = 3; k<snakearray.size(); k++) { //checks starting at the 4th snake (snake cant get the second or 3rd snake)
+							if(x == snakearray.get(k).getx() && y== snakearray.get(k).gety()) {	
+								gui.popupmessage("You can not run through the snake");
+								System.exit(0);
+							}
+						}
 
-        tick.scheduleAtFixedRate(task, 100, 100);
-    }
+					}
+				}
+				for (int i = 0 ; i<snakearray.size();i++){
+					snakearray.get(i).updatedirection2();
+				}
 
-    public void addsnake(int x, int y, Snake arg) {
-        Snake unit = new Snake(x,y,arg);
-        snakearray.add(unit);
-    }
+				//fixes the stupid bug where head snake gets decapitated
+				x = snakearray.get(0).getx();
+				y = snakearray.get(0).gety();
+				if (Direction == "north") { //error when supposed to be north
+					if ( x!=snakearray.get(1).getx()) {
+						snakearray.get(0).setx(snakearray.get(1).getx());
+						gui.lblSnakeArray.get(0).setLocation(snakearray.get(1).getx(), y);
+					}
+				}else if(Direction == "south") { // error when supposed to be south
+					if (x!=snakearray.get(1).getx()) {
+						snakearray.get(0).setx(snakearray.get(1).getx());
+						gui.lblSnakeArray.get(0).setLocation(snakearray.get(1).getx(), y);
+					}
+				}else if(Direction == "west") {// error when supposed to be west
+					if (y!=snakearray.get(1).gety()) {
+						snakearray.get(0).sety(snakearray.get(1).gety());
+						gui.lblSnakeArray.get(0).setLocation(x, snakearray.get(1).gety());
+					}
+				}else if(Direction == "east"){//error when supposed to be east
+					if (y!=snakearray.get(1).gety()) {
+						snakearray.get(0).sety(snakearray.get(1).gety());
+						gui.lblSnakeArray.get(0).setLocation(x, snakearray.get(1).gety());
+					}
+				}
+			}
+		};
+
+		tick.scheduleAtFixedRate(task, 100, 100);
+	}
+
+	public void addsnake(int x, int y, Snake arg) {
+		Snake unit = new Snake(x,y,arg);
+		snakearray.add(unit);
+	}
 
 
+	/**
+	 * Adjusts direction of snake to player demands
+	 */
+	class SnakeListener implements KeyListener{
+		public void keyTyped(KeyEvent e) {
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
 
-    /**
-     * Adjusts direction of snake to player demands
-     */
-    class SnakeListener implements KeyListener{
-        public void keyTyped(KeyEvent e) {
-        }
-        @Override
-        public void keyPressed(KeyEvent e) {
 
+			if(e.getKeyCode() == KeyEvent.VK_UP)
+			{
+				if(Direction != "south"&& State == true) {
+					Direction = "north";
+				}
 
-            if(e.getKeyCode() == KeyEvent.VK_UP)
-            {
-                Direction = "north";
-                snakearray.get(0).setdirection1(Direction);
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-            {
-                Direction = "south";
-                snakearray.get(0).setdirection1(Direction);
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_LEFT)
-            {
-                Direction = "west";
-                snakearray.get(0).setdirection1(Direction);
-            }
-            else{
-                Direction = "east";
-                snakearray.get(0).setdirection1(Direction);;
-            }
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+			{
+				if(Direction != "north"&& State == true) {
+					Direction = "south";
+				}
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+			{
+				if(Direction != "east"&& State == true) {
+					Direction = "west";
+				}
+			}
+			else{
+				if(Direction != "west"&& State == true) {
+					Direction = "east";
+				}
+			}
+			State = false;
 
-        }
-        @Override
-        public void keyReleased(KeyEvent arg0) {
-            // TODO Auto-generated method stub
-        }
-    }
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+		}
+	}
 }
