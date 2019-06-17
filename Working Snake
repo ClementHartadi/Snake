@@ -20,7 +20,7 @@ public class Snake {
             direction1 = "east"; //head snake will always spawn facing east
         }else {
             fSnake = arg2;
-            direction1 = fSnake.direction1; //sets the spawn direction to the current direction of snake infront of it
+            direction1 = fSnake.getdirection1(); //sets the spawn direction to the current direction of snake infront of it
         }
     }
 
@@ -64,6 +64,14 @@ public class Snake {
 
     public int getx() {
         return x;
+    }
+    
+    public void setx(int content) {
+    	x = content;
+    }
+    
+    public void sety(int content) {
+    	y = content;
     }
 
     public String getdirection1() {
