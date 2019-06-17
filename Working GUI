@@ -10,100 +10,97 @@ import javax.swing.JOptionPane;
 
 public class GUI {
 
-    JFrame frame;
-    Label lblFood;
-    ArrayList <Label> lblSnakeArray; // Snake label Array list
+	JFrame frame;
+	Label lblFood;
+	ArrayList <Label> lblSnakeArray; // Snake label Array list
 
 
 
-    int foodX;
-    int foodY;
+	int foodX;
+	int foodY;
 
 
-    /**
-     * GUI class Constructor
-     */
-    public GUI() {
-        initialize();
-        lblSnakeArray = new ArrayList<Label> ();
-        this.frame.setVisible(true);
-        this.popupmessage("hello");
-    }
+	/**
+	 * GUI class Constructor
+	 */
+	public GUI() {
+		initialize();
+		lblSnakeArray = new ArrayList<Label> ();
+		this.frame.setVisible(true);
+		this.frame.setResizable(false);
+	}
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
 
-        frame = new JFrame();
-        frame.getContentPane().setSize(800, 800);
-        frame.getContentPane().setLayout(null);
-        frame.setBounds(100, 100, 800, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame();
+		frame.getContentPane().setSize(800, 800);
+		frame.getContentPane().setLayout(null);
+		frame.setBounds(100, 100,825, 825);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        lblFood = new Label("");
-        lblFood.setBackground(Color.YELLOW);
-        lblFood.setAlignment(Label.CENTER);
-        positionFood();
-        lblFood.setBounds(foodX,foodY, 20, 20); //snake is 50x50
-        frame.add(lblFood);
-    }
-
-
-    /**
-     * spawns a new snake unit label
-     * @param x - x axis position
-     * @param y - y axis position
-     */
-    public void addnewSnake(int x, int y) {
-        Label lblSnake = new Label("");
-        lblSnake.setBounds(x, y, 20, 20); //snake is 50x50
-        lblSnake.setBackground(Color.BLACK);
-        lblSnake.setAlignment(Label.CENTER);
-        frame.add(lblSnake);
-        lblSnakeArray.add(lblSnake);
-    }
-
-    /**
-     * spawns a new snake unit label
-     * @param x - x axis position
-     * @param y - y axis position
-     */
-    public void positionFood() {
-
-        int max = 750;
-        int min = 50;
-
-        foodX =  (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
-
-        foodY = (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
-
-        lblFood.setLocation(foodX, foodY);
-
-    }
+		lblFood = new Label("");
+		lblFood.setBackground(Color.RED);
+		lblFood.setAlignment(Label.CENTER);
+		positionFood();
+		lblFood.setBounds(foodX,foodY, 20, 20); //snake is 50x50
+		frame.getContentPane().add(lblFood);
+	}
 
 
+	/**
+	 * spawns a new snake unit label
+	 * @param x - x axis position
+	 * @param y - y axis position
+	 */
+	public void addnewSnake(int x, int y) {
+		Label lblSnake = new Label("");
+		lblSnake.setBounds(x, y, 20, 20); //snake is 50x50
+		lblSnake.setBackground(Color.BLACK);
+		lblSnake.setAlignment(Label.CENTER);
+		frame.getContentPane().add(lblSnake);
+		lblSnakeArray.add(lblSnake);
+	}
+
+	/**
+	 * spawns a new snake unit label
+	 * @param x - x axis position
+	 * @param y - y axis position
+	 */
+	public void positionFood() {
+
+		int max = 750;
+		int min = 50;
+
+		foodX =  (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
+
+		foodY = (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
+
+		lblFood.setLocation(foodX, foodY);
+
+	}
 
 
-    public ArrayList<Integer> getFoodLocation(){
-
-        ArrayList<Integer> foodLocation = new ArrayList<>();
-
-        foodLocation.add(foodX);
-        foodLocation.add(foodY);
-
-        return foodLocation;
-    }
 
 
-    /**
-     * gameover popup
-     * @param content
-     */
-    public void popupmessage(String content) {
-        JOptionPane.showMessageDialog(null, content, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-    }
+	public ArrayList<Integer> getFoodLocation(){
+
+		ArrayList<Integer> foodLocation = new ArrayList<>();
+
+		foodLocation.add(foodX);
+		foodLocation.add(foodY);
+
+		return foodLocation;
+	}
+
+
+	/**
+	 * gameover popup
+	 * @param content
+	 */
+	public void popupmessage(String content) {
+		JOptionPane.showMessageDialog(null, content, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+	}
 }
-
-
-
