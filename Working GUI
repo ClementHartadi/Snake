@@ -8,16 +8,17 @@ import java.awt.Color;
 import java.awt.Label;
 import javax.swing.JOptionPane;
 
+/**
+ * GUI Class
+ * @author cleme
+ *
+ */
 public class GUI {
-
-	JFrame frame;
-	Label lblFood;
+	JFrame frame; //frame
+	Label lblFood; //food label
 	ArrayList <Label> lblSnakeArray; // Snake label Array list
-
-
-
-	int foodX;
-	int foodY;
+	int foodX; //X position of the food
+	int foodY; //Y position of the food
 
 
 	/**
@@ -45,7 +46,7 @@ public class GUI {
 		lblFood.setBackground(Color.RED);
 		lblFood.setAlignment(Label.CENTER);
 		positionFood();
-		lblFood.setBounds(foodX,foodY, 20, 20); //snake is 50x50
+		lblFood.setBounds(foodX,foodY, 20, 20); //food is 20x20
 		frame.getContentPane().add(lblFood);
 	}
 
@@ -57,7 +58,7 @@ public class GUI {
 	 */
 	public void addnewSnake(int x, int y) {
 		Label lblSnake = new Label("");
-		lblSnake.setBounds(x, y, 20, 20); //snake is 50x50
+		lblSnake.setBounds(x, y, 20, 20); //snake is 20X20
 		lblSnake.setBackground(Color.BLACK);
 		lblSnake.setAlignment(Label.CENTER);
 		frame.getContentPane().add(lblSnake);
@@ -65,7 +66,7 @@ public class GUI {
 	}
 
 	/**
-	 * spawns a new snake unit label
+	 * Creates a random position for the food
 	 * @param x - x axis position
 	 * @param y - y axis position
 	 */
@@ -77,9 +78,13 @@ public class GUI {
 		foodX =  (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
 
 		foodY = (int) (((Math.random() * ((max - min) + 1)) + min) / 25) * 25;
-
+	}
+	
+	/**
+	 * Spawns the food on the gui
+	 */
+	public void SpawnFood() {
 		lblFood.setLocation(foodX, foodY);
-
 	}
 
 
@@ -100,7 +105,7 @@ public class GUI {
 	 * gameover popup
 	 * @param content
 	 */
-	public void popupmessage(String content) {
-		JOptionPane.showMessageDialog(null, content, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+	public void popupmessage(String content,String Title) {
+		JOptionPane.showMessageDialog(null, content, Title, JOptionPane.INFORMATION_MESSAGE);
 	}
 }
