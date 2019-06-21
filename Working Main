@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Main class that incorporates the Snake Class and the GUI
+ * @author cleme
+ *
+ */
 public class Main {
-	GUI gui;
-	ArrayList<Snake> snakearray;
+	GUI gui;//gui object
+	ArrayList<Snake> snakearray; //arraylist of snake unit classes
 	String Direction; // head snake movement and direction
 	Boolean State = true;// boolean that ensures that only one direction change can be done per tick
+	int Score = 0; //how many food is eaten
+	
 	/**
 	 * Main Class constructor
 	 */
@@ -29,10 +36,13 @@ public class Main {
 		Snek.run();
 	}
 
-
+	/**
+	 * run method for main class
+	 */
 	public void run() {
 		// TODO Auto-generated method stub
 		Timer tick = new Timer();
+		//task that the timer will run
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
@@ -44,18 +54,16 @@ public class Main {
 				for (int i=0 ; i<snakearray.size(); i++) {
 					snakearray.get(i).move();
 					gui.lblSnakeArray.get(i).setLocation(snakearray.get(i).getx(), snakearray.get(i).gety());
-
+					//checks for food collision and spawns a new snake when food is eaten
 					if(i==0) {
-						//checks for food collision and spawns a new snake
 						ArrayList<Integer> foodLocation = new ArrayList<>();
 						foodLocation = gui.getFoodLocation();
 						x = snakearray.get(0).getx();
 						y = snakearray.get(0).gety();
 						if(x == foodLocation.get(0) && y == foodLocation.get(1) ){
-							String dir=snakearray.get(snakearray.size()-1).getdirection1();
-							int x1 = snakearray.get(snakearray.size()-1).getx();
-							int y1 = snakearray.get(snakearray.size()-1).gety();
-							gui.positionFood();
+							String dir=snakearray.get(snakearray.size()-1).getdirection1(); //direction of the tail of snake
+							int x1 = snakearray.get(snakearray.size()-1).getx(); //gets the x position of the current tail of snake
+							int y1 = snakearray.get(snakearray.size()-1).gety(); //y position of the current tail of snake
 							if (dir == "north") { // spawns a new snake unit south of the last snake
 								Main.this.addsnake(x1, y1+25,snakearray.get(snakearray.size()-1));
 								gui.addnewSnake(x1, y1+25);
@@ -69,16 +77,26 @@ public class Main {
 								Main.this.addsnake(x1-25, y1,snakearray.get(snakearray.size()-1));
 								gui.addnewSnake(x1-25, y1);
 							}
+							//snake food 
+							Score ++;
+							gui.positionFood(); //spawns random numbers for the food
+							for (int j = 0; j<snakearray.size();j++) { //makes sure that the food does not spawn in the snake
+								while(gui.foodX == snakearray.get(j).getx() && gui.foodY == snakearray.get(j).gety()) {
+									gui.positionFood();
+								}
+							}
+							gui.SpawnFood();
+							
 						}
 						//checks for wall collision
 						if(x == 800 || y == 800|| x ==  0|| y == 0){
-							gui.popupmessage("You can not run through walls");
+							gui.popupmessage("You can not run through walls" +"\n"+ "your score is " + String.valueOf(Score),"Game Over");
 							System.exit(0);
 						}
 						//checks for collision within the snake
-						for (int k = 3; k<snakearray.size(); k++) { //checks starting at the 4th snake (snake cant get the second or 3rd snake)
+						for (int k = 3; k<snakearray.size(); k++) { //checks starting at the 4th snake (headsnake can never collide the second or 3rd snake)
 							if(x == snakearray.get(k).getx() && y== snakearray.get(k).gety()) {	
-								gui.popupmessage("You can not run through the snake");
+								gui.popupmessage("You can not run through the snake" +"\n"+ "your score is " + String.valueOf(Score),"Game Over");
 								System.exit(0);
 							}
 						}
@@ -89,10 +107,10 @@ public class Main {
 					snakearray.get(i).updatedirection2();
 				}
 
-				//fixes the stupid bug where head snake gets decapitated
+				//hardcoding fix for the stupid bug where head snake gets decapitated
 				x = snakearray.get(0).getx();
 				y = snakearray.get(0).gety();
-				if (Direction == "north") { //error when supposed to be north
+				if (Direction == "north") { //error when head is supposed to be north of the second snake
 					if ( x!=snakearray.get(1).getx()) {
 						snakearray.get(0).setx(snakearray.get(1).getx());
 						gui.lblSnakeArray.get(0).setLocation(snakearray.get(1).getx(), y);
@@ -115,10 +133,16 @@ public class Main {
 				}
 			}
 		};
-
-		tick.scheduleAtFixedRate(task, 100, 100);
+		//runs the task for every 75 miliseconds
+		tick.scheduleAtFixedRate(task, 100, 75);
 	}
 
+	/**
+	 * adds a new snake object from the snake.java to the snake array
+	 * @param x
+	 * @param y
+	 * @param arg
+	 */
 	public void addsnake(int x, int y, Snake arg) {
 		Snake unit = new Snake(x,y,arg);
 		snakearray.add(unit);
@@ -126,15 +150,13 @@ public class Main {
 
 
 	/**
-	 * Adjusts direction of snake to player demands
+	 * Adjusts direction of snake to player demands using arrow keys
 	 */
 	class SnakeListener implements KeyListener{
 		public void keyTyped(KeyEvent e) {
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
-
-
 			if(e.getKeyCode() == KeyEvent.VK_UP)
 			{
 				if(Direction != "south"&& State == true) {
@@ -159,8 +181,7 @@ public class Main {
 					Direction = "east";
 				}
 			}
-			State = false;
-
+			State = false; //makes sure that you cant change direction again before the next timer tick
 		}
 		@Override
 		public void keyReleased(KeyEvent arg0) {
