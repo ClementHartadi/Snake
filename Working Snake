@@ -1,7 +1,5 @@
-import java.util.TimerTask;
-
 /**
- * the class that handles the calculation for the each of the individual snake units
+ * the class that handles the calculation for the each of the individual snake units (Model)
  * @author cleme
  *
  */
@@ -24,6 +22,9 @@ public class Snake {
         }
     }
 
+    /**
+     * handles the movements calculations based on the current direction faced
+     */
     public void move (){
         this.updatefdirection();
         this.updatedirection1();
@@ -38,55 +39,99 @@ public class Snake {
         }
     }
 
-
+/**
+ * sets direction1
+ * @param content
+ */
     public void setdirection1(String content) {
         direction1= content;
     }
 
+    /**
+     * sets direction1 as fdirection
+     */
     public void updatedirection1() {
         if (!(fSnake==null)) {
             direction1 = fdirection;
         }
     }
 
+    /**
+     * sets direction2 as direction1
+     */
     public void updatedirection2() {
         direction2 = direction1;
     }
 
+    /**
+     * updates fdirection
+     */
     public void updatefdirection() {
         if (!(fSnake ==null)) {
             fdirection = fSnake.direction2;
         }
     }
+    /**
+     * returns y position of the current snake unit
+     * @return
+     */
     public int gety() {
         return y;
     }
 
+    /**
+     * returns x position of the current snake unit
+     * @return
+     */
     public int getx() {
         return x;
     }
     
+    /**
+     * sets x to an integer of choice
+     * @param content
+     */
     public void setx(int content) {
     	x = content;
     }
     
+    /**
+     * sets y to an integer of choice 
+     * @param content
+     */
     public void sety(int content) {
     	y = content;
     }
 
+    /**
+     * returns direction1
+     * @return
+     */
     public String getdirection1() {
         return direction1;
     }
 
+    /**
+     * returns direction2
+     * @return
+     */
     public String getdirection2() {
         return direction2;
     }
 
+    /**
+     * adds y by a number
+     * @param content
+     */
     public void addy(int content) {
         int oldy = y;
         y = oldy + content;
     }
 
+    /**
+     * adds x by a number
+     * @param content
+     */
     public void addx(int content) {
         int oldx = x;
         x = oldx + content;
